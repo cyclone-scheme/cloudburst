@@ -73,7 +73,7 @@ copy-html:
 	sudo rm -rf $(WEB_DIR)/$(APP_WEB_SUBDIR)
 	sudo cp -r html $(WEB_DIR)/$(APP_WEB_SUBDIR)
 
-run:
+run: $(APP)
 	spawn-fcgi -p 8000 -n $(APP)
 
 # FUTURE? Serve local content via this method:
