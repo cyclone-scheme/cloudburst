@@ -6,6 +6,7 @@
     (cyclone web temple)
   )
   (export
+    view
     test
     get:status
     get:test2
@@ -13,7 +14,7 @@
   (begin
     (define (view)
       (render
-        "views/view-1.html"
+        "app/views/view-1.html"
         '((rows . '(
                     ("view-1.html" . "View 1")
                     ("view-2.html" . "View 2")
