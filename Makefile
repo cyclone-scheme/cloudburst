@@ -17,6 +17,8 @@ CONTROLLER_OBJS=$(CONTROLLERS:.sld=.o)
 MODELS=$(wildcard app/models/*.sld)
 MODEL_OBJS=$(MODELS:.sld=.o)
 
+VIEWS=$(wildcard app/views/*)
+
 CYCLONE_LIBS_COBJECTS = \
   $(CYCLONE_DIR)/scheme/cyclone/common.o \
   $(CYCLONE_DIR)/scheme/cyclone/primitives.o \
@@ -43,7 +45,7 @@ $(MODEL_OBJS) : %.o: %.sld
 $(APP_LIBS_COBJECTS) : %.o: %.sld
 	$(CYCLONE) $<
 
-$(APP): $(APP).scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS)
+$(APP): $(APP).scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) $(VIEWS)
 	$(CYCLONE) -CLNK -lfcgi $(APP).scm
 #	cc $(APP).c -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -c -o $(APP).o
 #	cc $(APP).o $(CYCLONE_LIBS_COBJECTS) $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) -pthread -lfcgi -lcyclone -lck -lm -ltommath -ldl -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -o $(APP)
@@ -79,4 +81,7 @@ run: $(APP)
 # FUTURE? Serve local content via this method:
 # https://stackoverflow.com/a/25486871/101258
 run-server:
-	sudo nginx -c `pwd`/nginx.conf
+	sudo nginx -c `pwd`/nginx.conf -p "`pwd`"
+
+stop-server:
+	sudo nginx -q
