@@ -84,4 +84,4 @@ run-server:
 	sudo nginx -c `pwd`/nginx.conf -p "`pwd`"
 
 stop-server:
-	sudo nginx -q
+	sudo nginx -s quit
