@@ -21,7 +21,7 @@ TODO: build and run example from github action, including http server hosting th
 
 ## Ubuntu
 
-    sudo apt-get install libfcgi-dev
+    sudo apt-get install libfcgi-dev spawn-fcgi
 
 Right now we are using nginx instead, but this would be nice to figure out, too:
 (lighthttpd setup https://www.linuxcloudvps.com/blog/how-to-install-lighttpd-on-ubuntu-18-04/ )
