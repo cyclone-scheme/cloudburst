@@ -1,4 +1,4 @@
-# <img src="html/cloud.png">
+# <img src="content/images/cloud.png">
 
 TODO / roadmap: 
 
