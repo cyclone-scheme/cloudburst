@@ -3,7 +3,8 @@
 TODO / roadmap: 
 
 - ~~Get everything to build again, ideally directly from cyclone~~
-- view integration with templates
+- ~~view integration with templates~~
+- support index pages. Should have a top-level index, and should also have "index" route in a controller that will be routed to if an empty route is specified for the controller (EG: "/demo2/" or "/demo2")
 - make a working demo and have it do something interesting
 - provide basic project description,
 - installation/build instructions 
@@ -11,7 +12,8 @@ TODO / roadmap:
 - and usage
 - first need to get controllers working (think we are there?) and build a demo REST API
 - then get models working at some level (maybe postgres integration?)
-- then figure out views for a UI (would be sweet to have a demo using Angular or such)
+- then figure out views for a UI (would be sweet to have a demo using React or such)
+- Deployment. It may not make sense to deploy the whole tree, do we have a convenience way to package up the app/content/views for deploying a site?
 
 # Installation
 
