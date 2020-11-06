@@ -11,8 +11,12 @@ TODO / roadmap:
 - include an arch linux script for getting packages?
 - and usage
 - first need to get controllers working (think we are there?) and build a demo REST API
+- REST integration, add support for get/post/put/delete methods
+- as part of that, need to be able to receive POST args (and PUT/DELETE, are those the same?)
+- as part of that, also need a way to format returned sexps as json/xml/other.
+  basically will want to call a function that accepts an expression and does all of the
+  writing to stdout for the object
 - then get models working at some level (maybe postgres integration?)
-- then figure out views for a UI (would be sweet to have a demo using React or such)
 - Deployment. It may not make sense to deploy the whole tree, do we have a convenience way to package up the app/content/views for deploying a site?
 
 # Installation
