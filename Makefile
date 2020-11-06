@@ -81,7 +81,7 @@ run: $(APP)
 # FUTURE? Serve local content via this method:
 # https://stackoverflow.com/a/25486871/101258
 run-server:
-	sudo nginx -c `pwd`/nginx.conf -p "`pwd`"
+	sudo nginx -c `pwd`/conf/nginx.conf -p "`pwd`"
 
 stop-server:
 	sudo nginx -s quit
