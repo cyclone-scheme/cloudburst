@@ -24,6 +24,8 @@
     url->query-string
     url->get-params
     query-string->field-values
+
+    url->path-parts
   )
   (begin
 
@@ -103,6 +105,14 @@
         (let ((fv (string-split field-value #\=)))
           (cons (car fv) (cadr fv))))
       field-values)))
+
+(define (url->path-parts url)
+  (let* ((url-p (url-parse url))
+         (path (url/p->path url url-p))
+         (path-parts (filter 
+                       (lambda (str) (> (string-length str) 0))
+                       (string-split (string-append path "/") #\/))))
+    path-parts))
 
 ;; END (http url)
 
