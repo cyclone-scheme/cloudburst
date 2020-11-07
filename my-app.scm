@@ -153,11 +153,7 @@
     (lambda (err)
       (log-error (string-append "Error calling route-to-controller for " url ":") err)
       (send-error-response "An error occurred"))
-    (let* ((url-p (url-parse url))
-           (path (url/p->path url url-p))
-           (path-parts (filter 
-                         (lambda (str) (> (string-length str) 0))
-                         (string-split (string-append path "/") #\/)))
+    (let* ((path-parts (url->path-parts url))
            (ctrl-part (car path-parts))
            (id-parts (if (> (length path-parts) 2)
                          (cddr path-parts)
