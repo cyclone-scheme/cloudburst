@@ -163,3 +163,7 @@
           (else
            (send-404-response)))))))
 
+;; Dynamically import and load controllers into memory
+(dyn-import)
+(gen-ctrl-table)
+

@@ -1,7 +1,14 @@
-;;
-;; TODO: move all of the framework logic below into a library,
-;;       figure out what actually needs to be in the main program
-
+;;;; The Cloudburst web framework
+;;;; https://github.com/cyclone-scheme/cloudburst
+;;;;
+;;;; Copyright (c) 2020, Justin Ethier
+;;;; All rights reserved.
+;;;;
+;;;; This file implements the main FastCGI application.
+;;;;
+;;;; It should not be necessary for a user to make any changes
+;;;; to this code.
+;;;;
 (import (scheme base)
         (scheme char)
         (scheme write)
@@ -21,41 +28,6 @@
         (lib fcgi))
 
 (include "lib/router.scm")
-
-;; Dynamically import and load controllers
-(dyn-import)
-(gen-ctrl-table)
-
-
-;; TODO: command-line interface to allow testing (maybe -t?) or just run as an
-;;       FCGI service (default behavior)
-
-
-TODO: remove this section and add it to a top-level test.scm -
-
-;; TESTING
-(begin
-;  ;; No controller, do we provide a default one?
-;  (route-to-controller "http://10.0.0.4/" "GET") (newline)
-;  ;; No action, should have a means of default
-;  (route-to-controller "http://10.0.0.4/demo" "GET") (newline)
-;  (route-to-controller "http://10.0.0.4/demo/" "GET") (newline)
-;  ;; ID arguments, should provide them. also should error if mismatched (too many/few for controller's action
-;  (route-to-controller "http://10.0.0.4/demo/test/1/2/3" "GET") (newline)
-;  (route-to-controller "http://10.0.0.4/demo/test2/arg1/arg2" "GET") (newline)
-;  (route-to-controller "http://10.0.0.4/demo/status" "GET") (newline)
-;  (route-to-controller "http://10.0.0.4/demo2/test" "GET") (newline)
-;  (route-to-controller "http://10.0.0.4/controller/action/id" "GET") (newline)
-;  (route-to-controller "http://localhost/demo.cgi" "GET") (newline)
-
-;; TODO: get this to work with top-level index, then another with ctrl index
-  (route-to-controller "http://localhost/" "GET") (newline)
-  (route-to-controller "http://localhost" "GET") (newline)
-  (route-to-controller "http://localhost/demo2" "GET") (newline)
-
-  (exit 0)
-) ;; END
-
 
 (fcgx:init)
 ;; TODO: initiate minor GC to ensure no thread-local data??
