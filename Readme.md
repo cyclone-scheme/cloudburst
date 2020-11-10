@@ -19,6 +19,10 @@ TODO / roadmap:
 - then get models working at some level (maybe postgres integration?)
 - Deployment. It may not make sense to deploy the whole tree, do we have a convenience way to package up the app/content/views for deploying a site?
 
+# Overview
+
+TBD
+
 # Installation
 
 TODO: build and run example from github action, including http server hosting the fcgi app
@@ -31,6 +35,14 @@ TODO: build and run example from github action, including http server hosting th
 
 Right now we are using nginx instead, but this would be nice to figure out, too:
 (lighthttpd setup https://www.linuxcloudvps.com/blog/how-to-install-lighttpd-on-ubuntu-18-04/ )
+
+# Usage
+
+Layout/usage/etc for Controllers, Models, Views
+
+How to deploy an application
+How to run an application
+
 
 
 ## Arch Linux
