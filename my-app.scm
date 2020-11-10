@@ -30,6 +30,9 @@
 ;; TODO: command-line interface to allow testing (maybe -t?) or just run as an
 ;;       FCGI service (default behavior)
 
+
+TODO: remove this section and add it to a top-level test.scm -
+
 ;; TESTING
 (begin
 ;  ;; No controller, do we provide a default one?
