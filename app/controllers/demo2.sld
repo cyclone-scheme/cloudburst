@@ -6,12 +6,15 @@
     (cyclone web temple)
   )
   (export
+    index
     view
     test
     get:status
     get:test2
   )
   (begin
+    (define (index)
+      (display "demo2 index page"))
     (define (view)
       (render
         "app/views/view-1.html"

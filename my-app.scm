@@ -157,16 +157,22 @@
            (ctrl-part (if (pair? path-parts)
                           (car path-parts)
                           "index")) ;; Default controller
-           (id-parts (if (> (length path-parts) 2)
+           (action-part (if (and (pair? path-parts) 
+                              (> (length path-parts) 2))
+                            (cadr path-parts)
+                            "index"))
+           (id-parts (if (and (pair? path-parts) 
+                              (> (length path-parts) 2))
                          (cddr path-parts)
-                         '("index"))) ;; Default action
+                         '()))
           )
 
-TODO: need to modify/generate path-parts with index parts inserted
+;TODO: need to modify/generate path-parts with index parts inserted
 
       (log-notice 
-        (list `(controller ,ctrl-part) 
-              `(action ,(path-parts->action path-parts))
+        (list `(path-parts ,path-parts)
+              `(controller ,ctrl-part) 
+              `(action ,action-part)
               `(args ,id-parts)
               `(len args ,(length id-parts))
               ))
@@ -175,8 +181,8 @@ TODO: need to modify/generate path-parts with index parts inserted
       ; (log-notice (list "running: " fnc))
        (let ((type/fnc 
                (ctrl/action->function 
-                 ctrl-part ;(string->symbol ctrl-part)
-                 (cadr path-parts) ;(string->symbol (string-append ctrl-part ":" (cadr path-parts)))
+                 ctrl-part
+                 action-part
                  (if (string? req-method)
                      (string-downcase req-method)
                      ""))))
@@ -212,6 +218,8 @@ TODO: need to modify/generate path-parts with index parts inserted
 
 ;; TODO: get this to work with top-level index, then another with ctrl index
   (route-to-controller "http://localhost/" "GET") (newline)
+  (route-to-controller "http://localhost" "GET") (newline)
+  (route-to-controller "http://localhost/demo2" "GET") (newline)
 
   (exit 0)
 ) ;; END
