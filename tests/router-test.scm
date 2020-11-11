@@ -1,4 +1,11 @@
-
+;;;; The Cloudburst web framework
+;;;; https://github.com/cyclone-scheme/cloudburst
+;;;;
+;;;; Copyright (c) 2020, Justin Ethier
+;;;; All rights reserved.
+;;;;
+;;;; Unit tests of the framework's router module.
+;;;;
 (import (scheme base)
         (scheme char)
         (scheme write)
@@ -16,14 +23,44 @@
         (lib http)
         (lib log)
         (prefix (lib request) req:)
-        ;(lib fcgi)
         )
 
 (include "lib/router.scm")
 
-(test-group
-  "TODO"
-  (test 1 1))
+(define-syntax test/output
+  (syntax-rules ()
+      ((_ desc expected body ...)
+       (_test/output
+         desc
+         expected
+         (lambda ()
+           body ...)))))
+
+(define (_test/output desc expected thunk)
+  (call-with-port 
+    (open-output-string) 
+    (lambda (p)
+      (parameterize ((current-output-port p))
+        (thunk)
+        (test 
+          desc
+          expected
+          (get-output-string p))))))
+
+(test-group "Route Output"
+
+  (test/output
+   "Index Page"
+   "Content-type: text/html\r\nStatus: 200 OK\r\n\r\nWelcome to my-app!"
+   (route-to-controller "http://localhost/" "GET"))
+
+  (test/output
+   "Index Page (2)"
+   "Content-type: text/html\r\nStatus: 200 OK\r\n\r\nWelcome to my-app!"
+   (route-to-controller "http://localhost" "GET"))
+)
+   
+; TODO: add more tests, perhaps after demo is finalized a bit -
 
 ;  ;; No controller, do we provide a default one?
 ;  (route-to-controller "http://10.0.0.4/" "GET") (newline)
@@ -39,8 +76,6 @@
 ;  (route-to-controller "http://localhost/demo.cgi" "GET") (newline)
 
 ;; TODO: get this to work with top-level index, then another with ctrl index
-  (route-to-controller "http://localhost/" "GET") (newline)
-  (route-to-controller "http://localhost" "GET") (newline)
-  (route-to-controller "http://localhost/demo2" "GET") (newline)
+;  (route-to-controller "http://localhost/demo2" "GET") (newline)
 
 (test-exit)
