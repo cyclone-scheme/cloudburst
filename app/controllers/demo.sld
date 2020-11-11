@@ -1,6 +1,4 @@
-;; TODO: rename this module
-
-(define-library (app controllers demo2)
+(define-library (app controllers demo)
   (import 
     (scheme base)
     (scheme write)
@@ -18,7 +16,7 @@
   )
   (begin
     (define (index)
-      (display "demo2 index page"))
+      (display "demo index page"))
     (define (view)
       (render
         "app/views/view-1.html"
@@ -30,12 +28,15 @@
           (link . car)
           (desc . cdr)))
     )
+
     (define (test)
-      (display "demo 2 test"))
+      (display "demo test"))
+
     (define (get:status)
       (display (status-ok)))
+
     (define (get:test2 arg1 arg2)
-      (display "demo2 : test")
+      (display "demo : test")
       (display ": ")
       (display arg1)
       (display ": ")

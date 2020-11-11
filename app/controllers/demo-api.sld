@@ -1,7 +1,4 @@
-TODO: rename this rest-demo, provide post/put/delete functionality
-      can use an in-memory object for testing/demo purposes
-
-(define-library (app controllers demo)
+(define-library (app controllers demo-api)
   (import 
     (scheme base)
     (scheme write)
@@ -9,6 +6,11 @@ TODO: rename this rest-demo, provide post/put/delete functionality
     (prefix (app models demo) demo-model:)
   )
   (export
+    ;; TODO: document significance of get: / post: /etc prefix
+    ;;       for a REST API.
+
+    ;; TODO: complete CRUD demo, can use in-memory storage since
+    ;; it is just a demonstration
     get:status
     get:test
     get:test2
@@ -16,8 +18,10 @@ TODO: rename this rest-demo, provide post/put/delete functionality
   (begin
     (define (get:status)
       (display (status-ok)))
+
     (define (get:test arg1)
       (display (demo-model:get-data)))
+
     (define (get:test2 arg1 arg2)
       (display "demo : test")
       (display ": ")
