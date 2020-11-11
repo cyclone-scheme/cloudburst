@@ -69,7 +69,12 @@ TESTS = $(basename $(TEST_SRC))
 $(TESTS) : %: %.scm
 	$(CYCLONE) $< && ./$@
 
-test: $(APP) $(APP_LIBS_COBJECTS) $(TESTS) $(TEST_OBJS)
+# This one is a bit special so we break it out
+tests/router-test: tests/router-test.scm
+	$(CYCLONE) -CLNK -lfcgi tests/router-test.scm
+	tests/router-test
+
+test: $(APP) $(APP_LIBS_COBJECTS) $(TESTS) $(TEST_OBJS) tests/router-test
 
 copy-html:
 	sudo rm -rf $(WEB_DIR)/$(APP_WEB_SUBDIR)
