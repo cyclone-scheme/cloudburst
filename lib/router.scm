@@ -151,6 +151,9 @@
                  (if (string? req-method)
                      (string-downcase req-method)
                      ""))))
+
+TODO: this is no good, can we log somewhere else other than stdout/err???
+
          (log-notice `(DEBUG ,ctrl-part ,path-parts ,req-method ,type/fnc))
          (cond
           (type/fnc
