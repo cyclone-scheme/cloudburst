@@ -1,3 +1,5 @@
+;; TODO: rename this module
+
 (define-library (app controllers demo2)
   (import 
     (scheme base)
@@ -6,6 +8,8 @@
     (cyclone web temple)
   )
   (export
+    ;; Functions exported here are URL "routes" 
+    ;; TODO: better description, and documentation for this
     index
     view
     test

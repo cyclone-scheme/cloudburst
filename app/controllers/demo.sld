@@ -1,3 +1,6 @@
+TODO: rename this rest-demo, provide post/put/delete functionality
+      can use an in-memory object for testing/demo purposes
+
 (define-library (app controllers demo)
   (import 
     (scheme base)
