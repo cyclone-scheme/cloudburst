@@ -16,6 +16,8 @@
   )
   (begin
     (define (index)
+    ;; TODO: link to view instead, and explain what is happening a bit more
+    ;;  EG: "this is the cb demo, here are links to some other pages"
       (display "demo index page"))
     (define (view)
       (render

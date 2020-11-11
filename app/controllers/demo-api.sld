@@ -16,6 +16,10 @@
     get:test2
   )
   (begin
+
+  ;; TODO: should return properly-formatted JSON. also what about
+  ;; other data types?
+
     (define (get:status)
       (display (status-ok)))
 
