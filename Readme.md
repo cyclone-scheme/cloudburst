@@ -32,6 +32,12 @@ TODO: build and run example from github action, including http server hosting th
 
 # Install Dependencies
 
+## Cyclone
+
+temple, syslog
+
+TODO: long-term do not need to list these here since cloudburst (the tool to make new repos, add elements, etc) will be installed via winds
+
 ## Ubuntu
 
     sudo apt-get install libfcgi-dev spawn-fcgi
