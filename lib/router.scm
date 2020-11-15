@@ -116,7 +116,7 @@
 (define (route-to-controller url req-method)
   (with-handler
     (lambda (err)
-      (log-error (string-append "Error calling route-to-controller for " url ":") err)
+      (send-log ERR (string-append "Error calling route-to-controller for " url ":") err)
       (send-error-response "An error occurred"))
     (let* ((path-parts (url->path-parts url))
            (ctrl-part (if (pair? path-parts)
@@ -134,16 +134,16 @@
 
 ;TODO: need to modify/generate path-parts with index parts inserted
 
-      (log-notice 
-        (list `(path-parts ,path-parts)
-              `(controller ,ctrl-part) 
-              `(action ,action-part)
-              `(args ,id-parts)
-              `(len args ,(length id-parts))
-              ))
+      ;(send-log INFO
+      ;  (list `(path-parts ,path-parts)
+      ;        `(controller ,ctrl-part) 
+      ;        `(action ,action-part)
+      ;        `(args ,id-parts)
+      ;        `(len args ,(length id-parts))
+      ;        ))
       ;(let ((fnc (string->symbol
       ;             (string-append ctrl-part ":" (cadr path-parts)))))
-      ; (log-notice (list "running: " fnc))
+      ; (send-log INFO (list "running: " fnc))
        (let ((type/fnc 
                (ctrl/action->function 
                  ctrl-part
@@ -152,9 +152,7 @@
                      (string-downcase req-method)
                      ""))))
 
-TODO: this is no good, can we log somewhere else other than stdout/err???
-
-         (log-notice `(DEBUG ,ctrl-part ,path-parts ,req-method ,type/fnc))
+         ;;(send-log INFO `(DEBUG ,ctrl-part ,path-parts ,req-method ,type/fnc))
          (cond
           (type/fnc
            (display (http:make-header 

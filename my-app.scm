@@ -17,13 +17,13 @@
         (scheme file)
         (scheme cyclone libraries)
         (scheme cyclone util)
+        (cyclone syslog)
         (cyclone web temple)
         (srfi 2)
         (srfi 18)
         (srfi 69)
         (lib dirent)
         (lib http)
-        (lib log)
         (prefix (lib request) req:)
         (lib fcgi))
 
@@ -43,7 +43,7 @@
       (parameterize ((current-output-port (open-output-string)))
         (with-handler
           (lambda (err)
-            (log-error (string-append "Error in fcgx:loop: ") err)
+            (send-log ERR (string-append "Error in fcgx:loop: ") err)
             (send-error-response "Internal error"))
           (let ((uri (fcgx:get-param req "REQUEST_URI" ""))
                 (req-method (fcgx:get-param req "REQUEST_METHOD" "GET")))
