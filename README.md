@@ -6,11 +6,8 @@ TODO / roadmap:
 - ~~view integration with templates~~
 - ~~support index pages. Should have a top-level index, and should also have "index" route in a controller that will be routed to if an empty route is specified for the controller (EG: "/demo2/" or "/demo2")~~
 - make a working demo and have it do something interesting
-- provide basic project description,
-- installation/build instructions 
-- include an arch linux script for getting packages?
+- provide basic project description, installation/build instructions 
 - and usage
-- first need to get controllers working (think we are there?) and build a demo REST API
 - REST integration, add support for get/post/put/delete methods
 - as part of that, need to be able to receive POST args (and PUT/DELETE, are those the same?)
 - as part of that, also need a way to format returned sexps as json/xml/other.
@@ -21,39 +18,14 @@ TODO / roadmap:
 - Program to generate scaffolding, and docs for it
 - Cyclone-winds package to install everything
 - github action to build and test everything
-
-Command line tool called cloudburst:
+  build and run example from github action, including http server hosting the fcgi app
+- Command line tool called cloudburst:
     
-    Commands like "create (name)", "add ctrl", etc
-    
-    Create downloads a copy of tagged repo via whet, unpacks, and renames as needed
-    
-    Adding new objects could take one from a Template directory and replace symbols as needed. Envision comments with file explaining how it works (optional?)
-    Also template controllers could be literal templates that we use temple to render, so we can preserve comments and dynamically add scheme code
-    
-    Cyclone winds just installs tool program, with dependencies
-    
-    How to install C deps? May include instructions in readme
-    
-    Need CI to do all this in the cloud for testing
-    
-    Need to figure out deployment, what goes along with app? How are views handled? Do we compile them now?
-    What else?
 # Overview
 
-TBD
-
-# Installation
-
-TODO: build and run example from github action, including http server hosting the fcgi app
+Cloudburst is a FastCGI-based web framework for Cyclone Scheme.
 
 # Install Dependencies
-
-## Cyclone
-
-temple, syslog
-
-TODO: long-term do not need to list these here since cloudburst (the tool to make new repos, add elements, etc) will be installed via winds
 
 ## Ubuntu
 
@@ -61,6 +33,16 @@ TODO: long-term do not need to list these here since cloudburst (the tool to mak
 
 Right now we are using nginx instead, but this would be nice to figure out, too:
 (lighthttpd setup https://www.linuxcloudvps.com/blog/how-to-install-lighttpd-on-ubuntu-18-04/ )
+
+## Arch Linux
+
+    pacman -Sy
+    pacman -S pacman
+    pacman -S nginx fcgi fcgiwrap spawn-fcgi
+
+# Installation
+
+    sudo cyclone-winds install cloudburst
 
 # Usage
 
@@ -71,9 +53,4 @@ How to run an application
 
 
 
-## Arch Linux
-
-    pacman -Sy
-    pacman -S pacman
-    pacman -S nginx fcgi fcgiwrap spawn-fcgi
 
