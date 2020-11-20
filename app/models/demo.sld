@@ -13,7 +13,7 @@
 
     (define *key-values* 
       (alist->hash-table '((string . "Sample String")
-                           (vector . #(sample vector))
+                           (vector . '#((sample . list)))
                            (list . (sample list)))))
 
     ;; TODO: real app would probably read/write from a DB

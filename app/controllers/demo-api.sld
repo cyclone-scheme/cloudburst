@@ -45,7 +45,7 @@
     (define (get:key-values)
       ;; TODO: easier to just return sexp from API functions, and let
       ;; framework do the JSON conversion?
-      (display (scm->json (hash-table->alist demo-model:*key-values*)))
+      (display (scm->json (list->vector (hash-table->alist demo-model:*key-values*))))
       ;(display (hash-table->alist demo-model:*key-values*))
     )
 
