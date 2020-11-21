@@ -123,7 +123,7 @@
                           (car path-parts)
                           "index")) ;; Default controller
            (action-part (if (and (pair? path-parts) 
-                              (> (length path-parts) 2))
+                              (> (length path-parts) 1))
                             (cadr path-parts)
                             "index"))
            (id-parts (if (and (pair? path-parts) 
