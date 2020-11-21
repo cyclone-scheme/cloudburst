@@ -50,11 +50,11 @@
     )
 
     (define (post:key-value)
-      (display 'TODO))
+      (display 'TODO-POST))
 
     (define (put:key-value)
-      (display 'TODO))
+      (display 'TODO-PUT))
 
     (define (delete:key-value)
-      (display 'TODO))
+      (display 'TODO-DELETE))
   ))
