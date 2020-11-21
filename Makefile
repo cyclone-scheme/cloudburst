@@ -45,7 +45,7 @@ $(MODEL_OBJS) : %.o: %.sld
 $(APP_LIBS_COBJECTS) : %.o: %.sld
 	$(CYCLONE) $<
 
-$(APP): $(APP).scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) $(VIEWS)
+$(APP): $(APP).scm lib/router.scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) $(VIEWS)
 	$(CYCLONE) -CLNK -lfcgi $(APP).scm
 #	cc $(APP).c -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -c -o $(APP).o
 #	cc $(APP).o $(CYCLONE_LIBS_COBJECTS) $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) -pthread -lfcgi -lcyclone -lck -lm -ltommath -ldl -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -o $(APP)
