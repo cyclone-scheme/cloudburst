@@ -5,6 +5,7 @@
     (srfi 69)
     (cyclone json)
     (lib http)
+    (prefix (lib request) req:)
     (prefix (app models demo) demo-model:)
   )
   (export
@@ -50,6 +51,11 @@
     )
 
     (define (post:key-value)
+;; TODO: some examples here: https://www.educative.io/edpresso/how-to-perform-a-post-request-using-curl
+;;
+;; TODO: how to decode URI-encoded chars in params, EG: & symbols? It might make sense to have a dedicated controller library (app controller) or such with helper for common tasks such as that
+      (display `(body ,(req:body)))
+      (display `(content-type ,(req:content-type)))
       (display 'TODO-POST))
 
     (define (put:key-value)
