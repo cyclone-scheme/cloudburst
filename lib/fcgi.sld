@@ -1,3 +1,8 @@
+;;;; Cloudburst web framework
+;;;; https://github.com/cyclone-scheme/cloudburst
+;;;;                                                                             
+;;;; Higher-level interface to FastCGI (FCGI)
+;;;;             
 (define-library (lib fcgi)
   (import 
     (scheme base)

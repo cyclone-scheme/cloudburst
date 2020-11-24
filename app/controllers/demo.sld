@@ -2,7 +2,7 @@
   (import 
     (scheme base)
     (scheme write)
-    (lib http)
+    ;(lib http)
     (cyclone web temple)
   )
   (export

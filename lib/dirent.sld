@@ -1,3 +1,8 @@
+;;;; Cloudburst web framework
+;;;; https://github.com/cyclone-scheme/cloudburst
+;;;;                                                                             
+;;;; Wrapper for the dirent POSIX library for traversing directories.
+;;;;             
 (define-library (lib dirent)
   (import 
     (scheme base)
