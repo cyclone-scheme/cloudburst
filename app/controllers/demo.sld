@@ -2,7 +2,7 @@
   (import 
     (scheme base)
     (scheme write)
-    ;(lib http)
+    (lib http)
     (cyclone web temple)
   )
   (export
@@ -11,7 +11,6 @@
     index
     view
     test
-    get:status
     get:test2
   )
   (begin
@@ -33,9 +32,6 @@
 
     (define (test)
       (display "demo test"))
-
-    (define (get:status)
-      (display (status-ok)))
 
     (define (get:test2 arg1 arg2)
       (display "demo : test")

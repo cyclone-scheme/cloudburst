@@ -4,7 +4,7 @@
     (scheme write)
     (srfi 69)
     (cyclone json)
-    (lib http)
+    ;(lib http)
     (prefix (lib request) req:)
     (prefix (app models demo) demo-model:)
   )
@@ -14,7 +14,7 @@
 
     ;; TODO: complete CRUD demo, can use in-memory storage since
     ;; it is just a demonstration
-    get:status
+    ;get:status
     get:test
     get:test2
 
@@ -30,8 +30,8 @@
   ;; TODO: should return properly-formatted JSON. also what about
   ;; other data types?
 
-    (define (get:status)
-      (display (status-ok)))
+;    (define (get:status)
+;      (display (status-ok)))
 
     (define (get:test arg1)
       (display (demo-model:get-data)))
@@ -54,6 +54,23 @@
 ;; TODO: some examples here: https://www.educative.io/edpresso/how-to-perform-a-post-request-using-curl
 ;;
 ;; TODO: how to decode URI-encoded chars in params, EG: & symbols? It might make sense to have a dedicated controller library (app controller) or such with helper for common tasks such as that
+;;
+;; TODO: see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent
+;;
+;; how to decode uri encoding in our framework -
+;; also need to setup tests for below:
+;;
+;;function containsEncodedComponents(x) {
+;;    // ie ?,=,&,/ etc
+;;      return (decodeURI(x) !== decodeURIComponent(x));
+;;}
+;;
+;;console.log(containsEncodedComponents('%3Fx%3Dtest')); // ?x=test
+;;// expected output: true
+;;
+;;console.log(containsEncodedComponents('%D1%88%D0%B5%D0%BB%D0%BB%D1%8B')); // шеллы
+;;// expected output: false
+
       (display `(body ,(req:body)))
       (display `(content-type ,(req:content-type)))
       (display 'TODO-POST))
