@@ -1,3 +1,8 @@
+;;;; Cloudburst web framework
+;;;; https://github.com/cyclone-scheme/cloudburst
+;;;;                                                                             
+;;;; This module contains helper functions for handling client web requests.
+;;;;             
 (define-library (lib request)
   (import 
     (scheme base)
