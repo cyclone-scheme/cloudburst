@@ -25,6 +25,7 @@
         (lib dirent)
         (lib http)
         (prefix (lib request) req:)
+        (prefix (lib uri) uri:)
         (lib fcgi))
 
 (include "lib/router.scm")
@@ -50,7 +51,9 @@
             (send-error-response "Internal error"))
           (let ((uri (fcgx:get-param req "REQUEST_URI" ""))
                 (req-method (fcgx:get-param req "REQUEST_METHOD" "GET")))
-            (route-to-controller uri req-method))
+            (route-to-controller 
+              (uri:decode uri)
+              req-method))
           (fcgx:print-request req (get-output-string (current-output-port))))))))
 
 ;          (display (http:make-header "text/html" 200))
