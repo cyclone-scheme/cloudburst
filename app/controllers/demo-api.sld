@@ -73,8 +73,16 @@
 
       (display `(body ,(req:body)))
       (display `(content-type ,(req:content-type)))
+      (display `(content-length ,(req:content-length)))
       (display 'TODO-POST))
 
+;; TODO: why do we get data corruption here??
+;
+; $ curl --data-urlencode "key=val ue" --data-urlencode "x=y" http://localhost/demo-api/key-value
+; (DEBUG 16)(DEBUG key=val          3272717984e&x=y)(body key=val          3272879760e&x=y)(content-type application/x-www-form-urlencoded)(content-length 16)TODO-POST
+;
+; Maybe this is not data corruption at all, at least in our app. Perhaps we are 
+; sending a response back with the wrong encoding????
     (define (put:key-value)
       (display 'TODO-PUT))
 

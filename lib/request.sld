@@ -14,6 +14,7 @@
     method
     body
     content-type
+    content-length
   )
   (begin
     (define (req-obj)
@@ -28,6 +29,10 @@
     (define (content-type)
       (let ((req (req-obj)))
         (fcgx:get-param req "CONTENT_TYPE" "GET")))
+
+    (define (content-length)
+      (let ((req (req-obj)))
+        (fcgx:get-param req "CONTENT_LENGTH" "GET")))
 
     ;; params :: [string]
     ;; Get parameters for the current request

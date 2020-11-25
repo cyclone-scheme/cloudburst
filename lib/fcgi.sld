@@ -7,6 +7,7 @@
   (import 
     (scheme base)
     (scheme cyclone util)
+    (scheme write)
     (srfi 18)
   )
   (include-c-header "fcgi_config.h")
@@ -34,21 +35,29 @@
     ;; and http://chriswu.me/code/hello_world_fcgi/main_v2.cpp (reading remainder of stdin)
     
     (define (fcgx:get-string req len)
-      (let ((result (make-string (+ len 1) #\null)))
-        (_fcgx:get-string req len result)
+      ;(let ((result (make-string (+ (* len 4) 1) #\null)))
+      ;  (display `(DEBUG ,(_fcgx:get-string req len result)))
+      ;  (display `(DEBUG ,result))
+      ;  result))
+      (let ((result (_fcgx:get-string req len)))
+        (display `(DEBUG ,result) (current-error-port))
         result))
     
     (define-c _fcgx:get-string
-      "(void *data, int argc, closure _, object k, object req, object num, object buf)"
-      " Cyc_check_str(data, buf);
-        Cyc_check_fixnum(data, num);
+      "(void *data, int argc, closure _, object k, object req, object num)"
+      " Cyc_check_fixnum(data, num);
         FCGX_Request *request = opaque_ptr(req);
-        char *s = string_str(buf);
         int n = obj_obj2int(num);
+        char *s = alloca(sizeof(char) * (n * 4 + 1));
+        set_thread_blocked(data, k);
+
         int n_read = FCGX_GetStr(s, n, request->in);
         s[n_read] = '\\0';
-        string_len(buf) = n_read;
-        return_closcall1(data, k, obj_int2obj(n_read)); ")
+        make_utf8_string_noalloc(buf, s, n_read);
+        buf.num_cp = Cyc_utf8_count_code_points((uint8_t *)s);
+        /*return_closcall1(data, k, &buf); */
+        return_thread_runnable_with_obj(data, &buf, NULL);
+      ")
     
     (define (fcgx:get-param req param default-value)
       (let ((rv (_fcgx:get-param req param)))
@@ -60,7 +69,7 @@
         FCGX_Request *request = opaque_ptr(req);
         const char *p = FCGX_GetParam(string_str(param), request->envp);
         if (p) {
-          make_string(str, p);
+          make_utf8_string(data, str, p);
           return_closcall1(data, k, &str);
         } else {
           return_closcall1(data, k, boolean_f);
