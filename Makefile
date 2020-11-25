@@ -2,11 +2,12 @@ include Makefile.config
 
 APP_LIB_DIR = lib
 APP_LIBS = \
-  $(APP_LIB_DIR)/http.sld \
-  $(APP_LIB_DIR)/fcgi.sld \
-  $(APP_LIB_DIR)/json.sld \
   $(APP_LIB_DIR)/dirent.sld \
-  $(APP_LIB_DIR)/request.sld
+  $(APP_LIB_DIR)/fcgi.sld \
+  $(APP_LIB_DIR)/http.sld \
+  $(APP_LIB_DIR)/json.sld \
+  $(APP_LIB_DIR)/request.sld \
+  $(APP_LIB_DIR)/uri.sld \
 
 APP_LIBS_COBJECTS = $(APP_LIBS:.sld=.o)
 APP_LIBS_CFILES = $(APP_LIBS:.sld=.c)
@@ -63,7 +64,10 @@ clean:
 
 TEST_DIR = tests
 TEST_SRC = \
- $(TEST_DIR)/json-test.scm
+ $(TEST_DIR)/http-test.scm \
+ $(TEST_DIR)/json-test.scm \
+ $(TEST_DIR)/uri-test.scm \
+
 TESTS = $(basename $(TEST_SRC))
 
 $(TESTS) : %: %.scm
