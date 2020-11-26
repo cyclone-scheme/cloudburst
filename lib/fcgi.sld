@@ -95,7 +95,7 @@
     (define-c fcgx:print-request
       "(void *data, int argc, closure _, object k, object opq, object str)"
       " FCGX_Request *req = opaque_ptr(opq);
-        FCGX_FPrintF(req->out, string_str(str));
+        FCGX_PutS(string_str(str), req->out);
         return_closcall1(data, k, boolean_t);")
     
     (define-c fcgx:finish-request

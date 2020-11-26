@@ -16,10 +16,12 @@ TODO / roadmap:
 - then get models working at some level (maybe postgres integration?)
 - Deployment. It may not make sense to deploy the whole tree, do we have a convenience way to package up the app/content/views for deploying a site?
 - Program to generate scaffolding, and docs for it
+  This is the Command line tool called cloudburst
 - Cyclone-winds package to install everything
 - github action to build and test everything
   build and run example from github action, including http server hosting the fcgi app
-- Command line tool called cloudburst:
+
+- TODO: consider refactor to use explicit fcgi puts function instead of wrapping current output port and using display. Seems like it would be more efficient. Temple will still use current output though...
     
 # Overview
 
