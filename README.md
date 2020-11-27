@@ -8,7 +8,7 @@ TODO / roadmap:
 - make a working demo and have it do something interesting
 - provide basic project description, installation/build instructions 
 - and usage
-- REST integration, add support for get/post/put/delete methods
+- ~~REST integration, add support for get/post/put/delete methods~~
 - as part of that, need to be able to receive POST args (and PUT/DELETE, are those the same?)
 - as part of that, also need a way to format returned sexps as json/xml/other.
   basically will want to call a function that accepts an expression and does all of the
