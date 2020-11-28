@@ -30,6 +30,11 @@
         return_closcall1(data, k, &str);
      ")
 
+(define (flatten x)                                                              
+  (cond ((null? x) '())                                                          
+        ((pair? x) (append (flatten (car x)) (flatten (cdr x))))                 
+        (else (list x)))) 
+
     ;; Added to this module since it depends on (decode) and is closely
     ;; related to this module's original intended purpose:
     ;;
@@ -50,13 +55,18 @@
                 (flatten 
                   (map (lambda (s) (string-split s ";")) 
                     (string-split str "&"))))
-            ;; Split name/values on =
-            ((pairs (map (lambda (s)
+             ;; Split name/values on =
+             (pairs (map (lambda (s)
                            (string-split s "="))
-                         spairs)))
-            ;; Decode all %HH encoded chars, and convert to pairs via cons
-            TODO
-   )
+                         spairs))
+             ;; Decode all %HH encoded chars, and convert to pairs via cons
+             (result
+               (map 
+                 (lambda(p)
+                   (cons (decode (car p))
+                         (decode (cadr p))))
+                 pairs)))
+          result))
 
     (define-c encode
       "(void *data, int argc, closure _, object k, object uri)"
