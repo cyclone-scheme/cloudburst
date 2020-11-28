@@ -77,6 +77,11 @@
       (display `(content-length ,(req:content-length)))
       (display 'TODO-POST))
 
+TODO: need to decode x-www-form-urlencoded (or other encodings) params
+Need to be able to decode %HH chars:
+    key=val%2520u+%26e&x=y
+maybe (form-data->alist) ??
+
 ;; TODO: why do we get data corruption here??
 ;
 ; $ curl --data-urlencode "key=val ue" --data-urlencode "x=y" http://localhost/demo-api/key-value
