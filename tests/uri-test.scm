@@ -47,4 +47,10 @@
   ;(test "decode middle null" "ABC\0" (decode "ABC%00DEF"))
 )
 
+;(test-group "Decoding of application/x-www-form-urlencoded"
+;  (test "decode empty" "" (decode ""))
+ ;;   key=val%2520u+%26e&x=y
+ ;;   key=val%2520u+%26e&x=y
+;)
+
 (test-exit)

@@ -6,12 +6,13 @@
 (define-library (lib uri)
   (import 
     (scheme base)
-    (scheme cyclone util)
+    (srfi 152)
   )
   (include-c-header "uri_encode.c")
   (export
     encode
     decode
+    decode-form
   )
   (begin
 ;size_t uri_encode (const char *src, const size_t len, char *dst);
@@ -28,6 +29,34 @@
         str.num_cp = Cyc_utf8_count_code_points((uint8_t *)dst); 
         return_closcall1(data, k, &str);
      ")
+
+    ;; Added to this module since it depends on (decode) and is closely
+    ;; related to this module's original intended purpose:
+    ;;
+    ;; Decode application/x-www-form-urlencoded format. This format encodes an
+    ;; ordered data sets of pairs consisting of a name and a value, with pairs 
+    ;; seperated by ampersand or semicolon and names and values seperated by the 
+    ;; equal sign. Space characters are replaced with plus sign and any characters
+    ;; not in the unreserved character set is encoded using the percent-encoding 
+    ;; scheme also used for resource identifiers. A percent-encoded octet is 
+    ;; encoded as a character triplet, consisting of the percent character "%" 
+    ;; followed by the two hexadecimal digits representing that octet's numeric value.
+    ;;
+    (define (decode-form str)
+      ;; TODO: Convert + to spaces (here, or later??)
+
+      (let* ((spairs
+                ;; Split pairs on & or ;
+                (flatten 
+                  (map (lambda (s) (string-split s ";")) 
+                    (string-split str "&"))))
+            ;; Split name/values on =
+            ((pairs (map (lambda (s)
+                           (string-split s "="))
+                         spairs)))
+            ;; Decode all %HH encoded chars, and convert to pairs via cons
+            TODO
+   )
 
     (define-c encode
       "(void *data, int argc, closure _, object k, object uri)"
