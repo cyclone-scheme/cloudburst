@@ -51,53 +51,34 @@
     )
 
     (define (post:key-value)
-      (let* ((posted-data (req:body))
-             (vars (decode-form posted-data))
-             (key (form-var vars "key"))
-             (value (form-var vars "value"))
+      (let* ((vars (decode-form (req:body)))
+             (key (form vars "key"))
+             (value (form vars "value"))
             )
-;; TODO: 404 (500?) if no key or value
-
+      ;; TODO: 404 (500?) if no key or value
       (demo-model:insert! key value)
-;; TODO: would be nice if we could just return a value from REST API
-      (write `(vars ,vars Inserted ,key ,value))
+      ;; TODO: would be nice if we could just return a value from REST API
+      (write `(Inserted ,key ,value))
     ))
-;; TODO: some examples here: https://www.educative.io/edpresso/how-to-perform-a-post-request-using-curl
-;;
-;; TODO: how to decode URI-encoded chars in params, EG: & symbols? It might make sense to have a dedicated controller library (app controller) or such with helper for common tasks such as that
-;;
-;; TODO: see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent
-;;
-;; how to decode uri encoding in our framework -
-;; also need to setup tests for below:
-;;
-;;function containsEncodedComponents(x) {
-;;    // ie ?,=,&,/ etc
-;;      return (decodeURI(x) !== decodeURIComponent(x));
-;;}
-;;
-;;console.log(containsEncodedComponents('%3Fx%3Dtest')); // ?x=test
-;;// expected output: true
-;;
-;;console.log(containsEncodedComponents('%D1%88%D0%B5%D0%BB%D0%BB%D1%8B')); // шеллы
-;;// expected output: false
-;
-;
-;TODO: need to decode x-www-form-urlencoded (or other encodings) params
-;Need to be able to decode %HH chars:
-;    key=val%2520u+%26e&x=y
-;maybe (form-data->alist) ??
 
-;; TODO: why do we get data corruption here??
-;
-; $ curl --data-urlencode "key=val ue" --data-urlencode "x=y" http://localhost/demo-api/key-value
-; (DEBUG 16)(DEBUG key=val          3272717984e&x=y)(body key=val          3272879760e&x=y)(content-type application/x-www-form-urlencoded)(content-length 16)TODO-POST
-;
-; Maybe this is not data corruption at all, at least in our app. Perhaps we are 
-; sending a response back with the wrong encoding????
     (define (put:key-value)
-      (display 'TODO-PUT))
+      (let* ((vars (decode-form (req:body)))
+             (key (form vars "key"))
+             (value (form vars "value"))
+            )
+      ;; TODO: 404 (500?) if no key or value
+      (demo-model:update! key value)
+      ;; TODO: would be nice if we could just return a value from REST API
+      (write `(Updated ,key ,value))
+    ))
 
     (define (delete:key-value)
-      (display 'TODO-DELETE))
+      (let* ((vars (decode-form (req:body)))
+             (key (form vars "key"))
+            )
+      ;; TODO: 404 (500?) if no key or value
+      (demo-model:delete! key)
+      ;; TODO: would be nice if we could just return a value from REST API
+      (write `(Deleted ,key))
+    ))
   ))

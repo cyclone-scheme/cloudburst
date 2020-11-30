@@ -14,7 +14,7 @@
     encode
     decode
     decode-form
-    form-var
+    form
   )
   (begin
 ;size_t uri_encode (const char *src, const size_t len, char *dst);
@@ -69,7 +69,7 @@
                  pairs)))
           result))
 
-    (define (form-var vars var)
+    (define (form vars var)
       (let ((cell (assoc var vars)))
         (if (pair? cell)
             (cdr cell)
