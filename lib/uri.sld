@@ -6,6 +6,7 @@
 (define-library (lib uri)
   (import 
     (scheme base)
+    (prefix (scheme cyclone util) util:)
     (srfi 152)
   )
   (include-c-header "uri_encode.c")
@@ -48,13 +49,12 @@
     ;; followed by the two hexadecimal digits representing that octet's numeric value.
     ;;
     (define (decode-form str)
-      ;; TODO: Convert + to spaces (here, or later??)
-
-      (let* ((spairs
+      (let* ((str* (util:string-replace-all str "+" " ")) ;; Convert + to spaces
+             (spairs
                 ;; Split pairs on & or ;
                 (flatten 
                   (map (lambda (s) (string-split s ";")) 
-                    (string-split str "&"))))
+                    (string-split str* "&"))))
              ;; Split name/values on =
              (pairs (map (lambda (s)
                            (string-split s "="))
