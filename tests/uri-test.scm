@@ -47,10 +47,12 @@
   ;(test "decode middle null" "ABC\0" (decode "ABC%00DEF"))
 )
 
-;(test-group "Decoding of application/x-www-form-urlencoded"
-;  (test "decode empty" "" (decode ""))
- ;;   key=val%2520u+%26e&x=y
- ;;   key=val%2520u+%26e&x=y
-;)
+(test-group "Decoding of application/x-www-form-urlencoded"
+  (test "simple decoding" '(("x" . "y")) (decode-form "x=y"))
+  (test "simple decoding" '(("x" . "y") ("a" . "b")) (decode-form "x=y&a=b"))
+  (test "complex decoding" 
+        '(("key" . "val%20u &e") ("x" . "y"))
+        (decode-form "key=val%2520u+%26e&x=y"))
+)
 
 (test-exit)
