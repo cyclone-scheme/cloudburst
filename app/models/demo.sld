@@ -8,9 +8,9 @@
   (export
     get
     get-all
-    insert
-    update
-    delete
+    insert!
+    update!
+    delete!
     *kv-tbl*
   )
   (begin
@@ -27,13 +27,13 @@
     (define (get-all)
       (hash-table->alist *kv-tbl*))
 
-    (define (insert key val)
+    (define (insert! key val)
       (hash-table-set! *kv-tbl* key val))
 
-    (define (update key val)
+    (define (update! key val)
       (hash-table-set! *kv-tbl* key val))
 
-    (define (delete key)
+    (define (delete! key)
       (hash-table-delete! *kv-tbl* key))
 
   )

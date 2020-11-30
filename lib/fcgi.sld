@@ -35,13 +35,7 @@
     ;; and http://chriswu.me/code/hello_world_fcgi/main_v2.cpp (reading remainder of stdin)
     
     (define (fcgx:get-string req len)
-      ;(let ((result (make-string (+ (* len 4) 1) #\null)))
-      ;  (display `(DEBUG ,(_fcgx:get-string req len result)))
-      ;  (display `(DEBUG ,result))
-      ;  result))
-      (let ((result (_fcgx:get-string req len)))
-        (display `(DEBUG ,result) (current-error-port))
-        result))
+      (_fcgx:get-string req len))
     
     (define-c _fcgx:get-string
       "(void *data, int argc, closure _, object k, object req, object num)"

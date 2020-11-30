@@ -45,20 +45,22 @@
 
     (define (get:key-values)
       ;; TODO: easier to just return sexp from API functions, and let
-      ;; framework do the JSON conversion?
-     ; (display (scm->json (list->vector (hash-table->alist demo-model:*key-values*))))
+      ;; framework do the JSON (or whatever) conversion
       (display
         (->json (demo-model:get-all)))
     )
 
     (define (post:key-value)
       (let* ((posted-data (req:body))
-             (vars (decode-form posted-data)))
-      (display vars)
-      ;(display `(body ,(req:body)))
-      ;(display `(content-type ,(req:content-type)))
-      ;(display `(content-length ,(req:content-length)))
-      ;(display 'TODO-POST)
+             (vars (decode-form posted-data))
+             (key (form-var vars "key"))
+             (value (form-var vars "value"))
+            )
+;; TODO: 404 (500?) if no key or value
+
+      (demo-model:insert! key value)
+;; TODO: would be nice if we could just return a value from REST API
+      (write `(vars ,vars Inserted ,key ,value))
     ))
 ;; TODO: some examples here: https://www.educative.io/edpresso/how-to-perform-a-post-request-using-curl
 ;;
