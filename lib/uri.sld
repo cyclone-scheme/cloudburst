@@ -14,6 +14,7 @@
     encode
     decode
     decode-form
+    form-var
   )
   (begin
 ;size_t uri_encode (const char *src, const size_t len, char *dst);
@@ -67,6 +68,12 @@
                          (decode (cadr p))))
                  pairs)))
           result))
+
+    (define (form-var vars var)
+      (let ((cell (assoc var vars)))
+        (if (pair? cell)
+            (cdr cell)
+            #f)))
 
     (define-c encode
       "(void *data, int argc, closure _, object k, object uri)"

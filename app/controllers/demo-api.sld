@@ -4,7 +4,7 @@
     (scheme write)
     (srfi 69)
     (lib json)
-    ;(lib http)
+    (lib uri)
     (prefix (lib request) req:)
     (prefix (app models demo) demo-model:)
   )
@@ -52,6 +52,14 @@
     )
 
     (define (post:key-value)
+      (let* ((posted-data (req:body))
+             (vars (decode-form posted-data)))
+      (display vars)
+      ;(display `(body ,(req:body)))
+      ;(display `(content-type ,(req:content-type)))
+      ;(display `(content-length ,(req:content-length)))
+      ;(display 'TODO-POST)
+    ))
 ;; TODO: some examples here: https://www.educative.io/edpresso/how-to-perform-a-post-request-using-curl
 ;;
 ;; TODO: how to decode URI-encoded chars in params, EG: & symbols? It might make sense to have a dedicated controller library (app controller) or such with helper for common tasks such as that
@@ -71,16 +79,12 @@
 ;;
 ;;console.log(containsEncodedComponents('%D1%88%D0%B5%D0%BB%D0%BB%D1%8B')); // шеллы
 ;;// expected output: false
-
-      (display `(body ,(req:body)))
-      (display `(content-type ,(req:content-type)))
-      (display `(content-length ,(req:content-length)))
-      (display 'TODO-POST))
-
-TODO: need to decode x-www-form-urlencoded (or other encodings) params
-Need to be able to decode %HH chars:
-    key=val%2520u+%26e&x=y
-maybe (form-data->alist) ??
+;
+;
+;TODO: need to decode x-www-form-urlencoded (or other encodings) params
+;Need to be able to decode %HH chars:
+;    key=val%2520u+%26e&x=y
+;maybe (form-data->alist) ??
 
 ;; TODO: why do we get data corruption here??
 ;
