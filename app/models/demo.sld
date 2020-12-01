@@ -17,7 +17,7 @@
 
     (define *kv-tbl*
       (alist->hash-table '((string . "Sample String")
-                           (vector . '#((sample . list)))
+                           (vector . #((sample . list)))
                            (list . (sample list)))))
 
     ;; FUTURE: real app would probably read/write from a DB

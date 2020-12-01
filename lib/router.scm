@@ -111,6 +111,21 @@
   (display (http:make-header "text/html" 404))
   (display "Not found."))
 
+;; Determine content type of response based upon GET parameters
+(define (path-parts->response-content-type path-parts)
+  ;(display `(DEBUG ,path-parts) (current-error-port))
+  (with-handler
+    (lambda (err)
+      ;(display `(ERROR ,err) (current-error-port))
+      "json") ;; Default
+    (if (and (> (length path-parts) 3)
+             (member "format" (cddr path-parts)))
+        (cadr 
+          (member 
+            "format" 
+            (cddr path-parts))) ;; Skip controller and function
+        "json"))) ;; Default
+
 ;; TODO: parse out id arguments and pass them along, if available
 ;; TODO: get the request type, then should a prefix "get:" "post:" (if available) route to by req type
 (define (route-to-controller url req-method)
@@ -132,8 +147,6 @@
                          '()))
           )
 
-;TODO: need to modify/generate path-parts with index parts inserted
-
       ;(send-log INFO
       ;  (list `(path-parts ,path-parts)
       ;        `(controller ,ctrl-part) 
@@ -141,9 +154,7 @@
       ;        `(args ,id-parts)
       ;        `(len args ,(length id-parts))
       ;        ))
-      ;(let ((fnc (string->symbol
-      ;             (string-append ctrl-part ":" (cadr path-parts)))))
-      ; (send-log INFO (list "running: " fnc))
+
        (let ((type/fnc 
                (ctrl/action->function 
                  ctrl-part
@@ -158,12 +169,20 @@
            (let ((result (apply (cdr type/fnc) id-parts)))
              (cond
                ((and result (not (eq? (void) result)))
-                ;; TODO: allow URL to specify different content-type
+
+                ;; TODO: encapsulate this elsewhere????
+                ;; allow URL to specify different content-type
                 ;;  if we can read key from URL (EG: /format/json, (get "format") ==> "json"
                 ;;  then we could use that here to determine what format we return
-                (display (http:make-header "application/json" 200))
-                (->json result)
-               )
+
+                (let ((format (path-parts->response-content-type path-parts)))
+                  (cond
+                    ((equal? format "scm")
+                     (display (http:make-header "text/plain" 200)) ;; Is this right??
+                     (display result))
+                    (else
+                     (display (http:make-header "application/json" 200))
+                     (->json result)))))
                (else
                 (send-404-response)))))
           (type/fnc
