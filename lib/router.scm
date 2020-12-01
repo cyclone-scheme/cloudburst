@@ -154,12 +154,18 @@
 
          ;;(send-log INFO `(DEBUG ,ctrl-part ,path-parts ,req-method ,type/fnc))
          (cond
+          ((and type/fnc (equal? (car type/fnc) 'rest))
+           (let ((result (apply (cdr type/fnc) id-parts)))
+             (cond
+               (result
+                ;; TODO: allow URL to specify different content-type
+                (display (http:make-header "application/json" 200))
+                (->json result)
+               )
+               (else
+                (send-404-response)))))
           (type/fnc
-           (display (http:make-header 
-                      (if (equal? (car type/fnc) 'rest)
-                          "application/json" 
-                          "text/html")
-                      200))
+           (display (http:make-header "text/html" 200))
            (apply (cdr type/fnc) id-parts))
           (else
            (send-404-response)))))))
