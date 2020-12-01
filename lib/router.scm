@@ -157,8 +157,10 @@
           ((and type/fnc (equal? (car type/fnc) 'rest))
            (let ((result (apply (cdr type/fnc) id-parts)))
              (cond
-               (result
+               ((and result (not (eq? (void) result)))
                 ;; TODO: allow URL to specify different content-type
+                ;;  if we can read key from URL (EG: /format/json, (get "format") ==> "json"
+                ;;  then we could use that here to determine what format we return
                 (display (http:make-header "application/json" 200))
                 (->json result)
                )
