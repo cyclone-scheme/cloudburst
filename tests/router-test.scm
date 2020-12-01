@@ -22,6 +22,7 @@
         (srfi 69)
         (lib dirent)
         (lib http)
+        (lib json)
         (prefix (lib request) req:)
         )
 
