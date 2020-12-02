@@ -1,4 +1,5 @@
 (import (scheme base) 
+        (scheme file)
         (scheme process-context)
         (scheme write)
         (cyclone match)
@@ -34,21 +35,24 @@
   Commands:
   
     help - Display this usage text
+    init NAME - Create a new Cloudburst project in NAME
+
     ")
 )
 
 (define (main cmd)
   (match 
     cmd
-    (('init name)
-     (main `(init ,name ,*default-cb-tar-gz-url*)))
-    (('init name url)
-     (display `(TODO create app ,name))
-     ;; TODO: verify directory exists, create if not, bail w/error if it does
+    (("init" name)
+     (main `("init" ,name ,*default-cb-tar-gz-url*)))
+    (("init" name url)
+     (when (file-exists? name)
+       (error `(Project ,name already exists)))
      (download! url "cb.tar.gz")
+     (make-dir! name)
      (extract! "cb.tar.gz" name)
     )
     (else
       (usage))))
 
-(main (cdr (map string->symbol (command-line))))
+(main (cdr (command-line)))
