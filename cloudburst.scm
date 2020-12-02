@@ -1,5 +1,8 @@
 (import (scheme base) 
+        (scheme process-context)
         (scheme write)
+        (cyclone match)
+        (lib system-calls)
         )
 
 ;; TODO:
@@ -31,4 +34,14 @@
     ")
 )
 
-(usage)
+(define (main)
+  (match (cdr (map string->symbol (command-line)))
+    (('init name)
+     (display `(TODO create app ,name))
+     (download! "https://github.com/cyclone-scheme/cloudburst/archive/master.tar.gz" "cb.tar.gz")
+     ;(extract! "cb.tar.gz" name)
+    )
+    (else
+      (usage))))
+
+(main)
