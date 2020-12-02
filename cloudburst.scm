@@ -39,7 +39,7 @@
     (('init name)
      (display `(TODO create app ,name))
      (download! "https://github.com/cyclone-scheme/cloudburst/archive/master.tar.gz" "cb.tar.gz")
-     ;(extract! "cb.tar.gz" name)
+     (extract! "cb.tar.gz" name)
     )
     (else
       (usage))))
