@@ -3,6 +3,7 @@
         (scheme process-context)
         (scheme write)
         (cyclone match)
+        (cyclone web temple)
         (lib system-calls)
         )
 
@@ -36,6 +37,10 @@
   
     help - Display this usage text
     init NAME - Create a new Cloudburst project in NAME
+    add ctrl NAME - Add a new controller called NAME
+    add rest NAME - Add a new REST controller called NAME
+    add model NAME - Add a new model called NAME
+    add view NAME - Add a new view called NAME
 
     ")
 )
@@ -52,6 +57,10 @@
      (make-dir! name)
      (extract! "cb.tar.gz" name)
     )
+    (("add" "ctrl" name)
+     (with-output-to-file "test.tmp" (lambda ()
+       (render "templates/ctrl.sld" `((name . ,name)))
+     )))
     (else
       (usage))))
 
