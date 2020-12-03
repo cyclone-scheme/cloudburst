@@ -58,9 +58,10 @@
      (extract! "cb.tar.gz" name)
     )
     (("add" "ctrl" name)
-     (with-output-to-file "test.tmp" (lambda ()
-       (render "templates/ctrl.sld" `((name . ,name)))
-     )))
+     (with-output-to-file
+       (string-append "app/controllers/" name ".sld")
+       (lambda ()
+         (render "templates/ctrl.sld" `((name . ,name))))))
     (else
       (usage))))
 
