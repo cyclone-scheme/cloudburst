@@ -8,7 +8,8 @@
   <script>
     "use strict";
 
-Highcharts.chart('container', {
+document.addEventListener('DOMContentLoaded', function(event) {
+  Highcharts.chart('container', {
     chart: {
         type: 'spline',
         animation: Highcharts.svg, // don't animate in old IE
@@ -94,6 +95,7 @@ Highcharts.chart('container', {
             return data;
         }())
     }]
+  });
 });
   </script>
 </head>
