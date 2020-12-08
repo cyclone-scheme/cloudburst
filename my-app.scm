@@ -31,6 +31,9 @@
 
 (include "lib/router.scm")
 
+TODO: seeing garbled chars in the syslog, are we sure open-log works as expected??
+Dec  7 21:57:28 justin-Latitude-5491 <90>^F 006 <87>TV[78591]: Error calling route-to-controller for /graph/:(TODO: parse scheme expression)
+
 ;; Use this name for syslog entries
 (open-log "cloudburst")
 
