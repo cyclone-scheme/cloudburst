@@ -14,5 +14,8 @@
         "app/views/graph.html"
         '())
     )
+
+    ;; TODO: CPU graph, what else?
+    ;; TODO: bunch of demo's, all linked from index page
   )
 )
