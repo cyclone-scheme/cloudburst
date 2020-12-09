@@ -1,0 +1,9 @@
+;; Sample database configuration
+;;
+;; To use, edit this file to include connection information for your database
+;; and save it as config/database.scm
+;;
+((hostname . "localhost")
+ (port . "5432")
+ (username . "postgres")
+ (password . "postgres"))
