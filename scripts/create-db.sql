@@ -1,3 +1,4 @@
+-- Main table to store tasks
 CREATE TABLE task
 (
   id serial,

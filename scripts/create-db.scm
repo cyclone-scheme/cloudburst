@@ -15,11 +15,20 @@
 ;; TODO: extract this out into a postgres DB driver for our framework????
 ;;       will need to handle things like escaping (does our library do that?), etc
 
-;; TODO: create table(s)
+;; Read all contents of file and return as a string
+(define (file-contents filename)
+  (let loop ((fp (open-input-file filename))
+             (contents ""))
+    (let ((in (read-string 1024 fp)))
+      (cond
+        ((eof-object? in)
+         (close-port fp)
+         contents)
+        (else
+          (loop fp (string-append contents in)))))))
 
 (define (print . args) (for-each display args) (newline))
 
-;; TODO: load sample data
 (define conn (make-postgresql-connection 
   *hostname* *port* *database* *username* *password*))
 
@@ -34,8 +43,8 @@
 (guard (e (else #t)) (postgresql-execute-sql! conn "drop table test"))
 (guard (e (else (print (error-object-message e))))
   (postgresql-execute-sql! conn
-    "create table test (id integer, name varchar(50))"))
-;
+    (file-contents "scripts/create-db.sql")))
+
 ;(print "simple query")
 ;(let ((r (postgresql-execute-sql! conn "select * from test")))
 ;  (print (postgresql-query-descriptions r))
