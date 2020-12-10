@@ -8,3 +8,15 @@ CREATE TABLE task
   done_at timestamptz,
   CONSTRAINT pk_task PRIMARY KEY (id)
 );
+
+-- Load sample data
+INSERT INTO task (body, priority, done, done_at)
+     VALUES ('Allocate too many objects', -1, true, now());
+INSERT INTO task (body, priority, done, done_at) 
+     VALUES ('Swap mark colors', 0, false, null);
+INSERT INTO task (body, priority, done, done_at) 
+     VALUES ('Mark root objects', 0, false, null);
+INSERT INTO task (body) 
+     VALUES ('Trace live objects');
+INSERT INTO task (body)
+     VALUES ('Take out the trash');

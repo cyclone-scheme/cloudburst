@@ -3,7 +3,6 @@
         (prefix (lib config) config:)
         (cyclone postgresql))
 
-;; TODO: load config/database.scm
 (define cfg (config:read-file "config/database.scm"))
 
 (define *hostname* (config:value cfg 'hostname))
@@ -40,7 +39,7 @@
 
 (print "create tables")
 ;; may not be there yet (causes an error if there isn't)
-(guard (e (else #t)) (postgresql-execute-sql! conn "drop table test"))
+(guard (e (else #t)) (postgresql-execute-sql! conn "drop table task;"))
 (guard (e (else (print (error-object-message e))))
   (postgresql-execute-sql! conn
     (file-contents "scripts/create-db.sql")))
