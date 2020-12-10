@@ -1,3 +1,8 @@
+;; Simple library for working with S-expression based config files
+;;
+;; Assumes the config is a single list of a-lists so we can read
+;; keys via assoc, or potentially load them into a hash table.
+;;
 (define-library (lib config)
   (import 
     (scheme base)
@@ -10,9 +15,12 @@
     value
   )
   (begin
-    ;; TODO: just a placeholder, but the idea is for any helpers for sending responses to go here
+    ;; Read config file as a single S-expression
     (define (read-file filename)
-      (with-input-from-file filename (lambda () (read))))
+      (with-handler
+        (lambda (err)
+          (error `(Unable to read configuration file ,filename ,err)))
+        (with-input-from-file filename (lambda () (read)))))
 
     ;; Read configuration value for given config data structure and key
     (define (value config key)
