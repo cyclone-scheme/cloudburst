@@ -16,6 +16,9 @@
   )
   (begin
 
+;; TODO: BIG consideration is how to make all of this thread-safe,
+;;       and how much of that is DB-dependent (EG: pg vs sqlite)
+
 ;; TODO: instead of using config/postgres directly, extract that to a DB driver
 ;; and use something streamlined here
 

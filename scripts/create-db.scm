@@ -1,48 +1,18 @@
 (import (scheme base)
         (scheme write)
-        (prefix (lib config) config:)
+        (prefix (lib database) db:)
         (cyclone postgresql))
-
-(define cfg (config:read-file "config/database.scm"))
-
-(define *hostname* (config:value cfg 'hostname))
-(define *port* (config:value cfg 'port))
-(define *database* (config:value cfg 'database))
-(define *username* (config:value cfg 'username))
-(define *password* (config:value cfg 'password))
-
-;; TODO: extract this out into a postgres DB driver for our framework????
-;;       will need to handle things like escaping (does our library do that?), etc
-
-;; Read all contents of file and return as a string
-(define (file-contents filename)
-  (let loop ((fp (open-input-file filename))
-             (contents ""))
-    (let ((in (read-string 1024 fp)))
-      (cond
-        ((eof-object? in)
-         (close-port fp)
-         contents)
-        (else
-          (loop fp (string-append contents in)))))))
 
 (define (print . args) (for-each display args) (newline))
 
-(define conn (make-postgresql-connection 
-  *hostname* *port* *database* *username* *password*))
-
-;; open the connection
-(postgresql-open-connection! conn)
-
-;; login
-(postgresql-login! conn)
+(define conn (db:connect))
 
 (print "create tables")
 ;; may not be there yet (causes an error if there isn't)
 (guard (e (else #t)) (postgresql-execute-sql! conn "drop table task;"))
 (guard (e (else (print (error-object-message e))))
   (postgresql-execute-sql! conn
-    (file-contents "scripts/create-db.sql")))
+    (db:file-contents "scripts/create-db.sql")))
 
 ;(print "simple query")
 ;(let ((r (postgresql-execute-sql! conn "select * from test")))
