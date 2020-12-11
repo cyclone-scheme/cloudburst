@@ -35,14 +35,15 @@
 
   Commands:
   
-    help - Display this usage text
-    init NAME - Create a new Cloudburst project in NAME
+    init NAME - Create a new Cloudburst project in directory NAME
     add ctrl NAME - Add a new controller called NAME
-    add rest NAME - Add a new REST controller called NAME
-    add model NAME - Add a new model called NAME
-    add view NAME - Add a new view called NAME
+    help - Display this usage text
 
     ")
+  ;; TODO:
+    ;add rest NAME - Add a new REST controller called NAME
+    ;add model NAME - Add a new model called NAME
+    ;add view NAME - Add a new view called NAME
 )
 
 (define (main cmd)
