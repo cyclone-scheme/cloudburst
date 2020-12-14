@@ -60,7 +60,7 @@ $(APP): $(APP).scm lib/router.scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODE
 .PHONY: clean test run run-server copy-html
 clean:
 #	rm -f example $(APP) threaded *.meta *.so *.o $(APP).c lib/*.meta lib/*.so $(APP_LIBS_CFILES) $(APP_LIBS_COBJECTS)
-	git clean -fdx
+	git clean -fdx -e config/database.scm
 
 TEST_DIR = tests
 TEST_SRC = \
