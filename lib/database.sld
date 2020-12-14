@@ -36,6 +36,8 @@
     conn))
 
 (define (query conn cmd)
+;; TODO: use prepared statement instead??
+;;       seems more appopriate, esp if we are using fetch anyway
   (postgresql-execute-sql! conn cmd))
 
 (define (query/file conn filename)

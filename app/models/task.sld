@@ -23,13 +23,19 @@
 ;; and use something streamlined here
 
     (define (get-all)
-     'TODO
       ;; TODO: connect, query, loop over query and cons until #f, then return
-      ;(let loop ((conn (db:connect))
-      ;          ( 
-      ;      )
-      ;  (db:disconnect! conn))
-    )
+      (let* ((conn (db:connect))
+             (r (db:query conn "select * from task"))
+             (rs (let loop ((acc '())
+                            (row (db:fetch! conn r)))
+                   (cond
+                     (row 
+                       (loop (cons row acc)
+                             (db:fetch! conn r)))
+                     (else
+                       acc)))))
+        (db:disconnect! conn)
+        (reverse rs)))
 
 ;    (define (get key)
 ;      (hash-table-ref/default *kv-tbl* key))
