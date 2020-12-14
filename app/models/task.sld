@@ -4,7 +4,7 @@
     (scheme write)
     (lib http)
     (lib config)
-    (cyclone postgresql)
+    (prefix (lib database) db:)
     (srfi 69)
   )
   (export
@@ -23,7 +23,12 @@
 ;; and use something streamlined here
 
     (define (get-all)
-      'todo
+     'TODO
+      ;; TODO: connect, query, loop over query and cons until #f, then return
+      ;(let loop ((conn (db:connect))
+      ;          ( 
+      ;      )
+      ;  (db:disconnect! conn))
     )
 
 ;    (define (get key)
