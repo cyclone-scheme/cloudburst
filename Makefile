@@ -2,6 +2,8 @@ include Makefile.config
 
 APP_LIB_DIR = lib
 APP_LIBS = \
+  $(APP_LIB_DIR)/config.sld \
+  $(APP_LIB_DIR)/database.sld \
   $(APP_LIB_DIR)/dirent.sld \
   $(APP_LIB_DIR)/fcgi.sld \
   $(APP_LIB_DIR)/http.sld \

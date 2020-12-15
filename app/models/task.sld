@@ -30,8 +30,14 @@
                             (row (db:fetch! conn r)))
                    (cond
                      (row 
-                       (loop (cons row acc)
-                             (db:fetch! conn r)))
+                       (loop 
+                         (cons 
+                           `((id . ,(vector-ref row 0))
+                             (task . ,(vector-ref row 1))
+                             (priority . ,(vector-ref row 2))
+                            )
+                           acc)
+                         (db:fetch! conn r)))
                      (else
                        acc)))))
         (db:disconnect! conn)
