@@ -1,5 +1,7 @@
 Notes:
 
+- Thread safety
+  - how to make database functions thread safe??
 - specify database type in config file ?
 - load DB driver based on db type
 
