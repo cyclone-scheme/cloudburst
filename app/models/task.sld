@@ -9,10 +9,8 @@
     (srfi 69)
   )
   (export
-;    get
     get-all
     insert!
-    insert2!
     update!
     delete!
   )
@@ -25,27 +23,26 @@
 ;; and use something streamlined here
 
     (define (get-all)
-      ;; TODO: connect, query, loop over query and cons until #f, then return
-      (let* ((conn (db:connect))
-             (r (db:query conn "select * from task"))
-             (rs (let loop ((acc '())
-                            (row (db:fetch! conn r)))
-                   (cond
-                     (row 
-                       (loop 
-                         (cons 
-                           `((id . ,(vector-ref row 0))
-                             (task . ,(vector-ref row 1))
-                             (priority . ,(vector-ref row 2))
-                            )
-                           acc)
-                         (db:fetch! conn r)))
-                     (else
-                       acc)))))
-        (db:disconnect! conn)
-        (reverse rs)))
+      (db:call-with-lock 
+       (lambda (conn)
+        (let* ((r (db:query conn "select * from task"))
+               (rs (let loop ((acc '())
+                              (row (db:fetch! conn r)))
+                     (cond
+                       (row 
+                         (loop 
+                           (cons 
+                             `((id . ,(vector-ref row 0))
+                               (task . ,(vector-ref row 1))
+                               (priority . ,(vector-ref row 2))
+                              )
+                             acc)
+                           (db:fetch! conn r)))
+                       (else
+                         acc)))))
+          (db:disconnect! conn)
+          (reverse rs)))))
 
-;; TODO: why is this so slow??
     (define (insert! body)
       (let* ((conn (db:connect))
              (p (postgresql-prepared-statement conn 
@@ -57,16 +54,14 @@
         (db:disconnect! conn)
         q)) ;; TODO: possible to return ID?
 
-;; Experimenting with this, seems a bit faster but we need to
-;; be able to convert params to strings and then add to the SQL.
-;; after that is done, is it really faster?
-    (define (insert2! body)
-      (let* ((conn (db:connect)))
-        (postgresql-execute-sql! conn 
-          (string-append
-            "insert into task (body) values ('"
-            body
-            "')"))))
+    ; Experiment -
+    ;(define (insert2! body)
+    ;  (let* ((conn (db:connect)))
+    ;    (postgresql-execute-sql! conn 
+    ;      (string-append
+    ;        "insert into task (body) values ('"
+    ;        body
+    ;        "')"))))
 
     (define (update! id body)
       (let* ((conn (db:connect))

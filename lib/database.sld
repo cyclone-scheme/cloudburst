@@ -18,7 +18,7 @@
     disconnect!
     ;; TODO: with-db-lock (??)
     call-with-lock
-    with-lock
+    ;with-lock
   )
   (begin
 
@@ -31,16 +31,16 @@
       (lambda (err)
         (mutex-unlock! *lock*)
         (raise err))
-      (set! result (thunk)))
+      (set! result (thunk (connect))))
     (mutex-unlock! *lock*)
     result))
     
-(define-syntax with-lock
-  (er-macro-transformer
-    (lambda (exp rename compare)
-      `(call-with-lock
-         (lambda ()
-           ,@(cdr exp))))))
+;(define-syntax with-lock
+;  (er-macro-transformer
+;    (lambda (exp rename compare)
+;      `(call-with-lock
+;         (lambda ()
+;           ,@(cdr exp))))))
 
 (define (connect)
   (define cfg (config:read-file "config/database.scm"))
