@@ -2,6 +2,8 @@ Notes:
 
 - Thread safety
   - how to make database functions thread safe??
+  - might be the best reason to make DB drivers. Part of the function
+    of the driver will be to handle concurrency (locks, etc)
 - specify database type in config file ?
 - load DB driver based on db type
 

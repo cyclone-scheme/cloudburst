@@ -1,8 +1,11 @@
 ;; TODO: relocate this to (lib database postgresql)
+;; TODO: generalize common parts to (lib database)
+;; TODO: add another DB driver, maybe sqlite
 (define-library (lib database)
   (import 
     (scheme base)
     (scheme write)
+    (srfi 18)
     (prefix (lib config) config:)
     (cyclone postgresql)
   )
@@ -13,8 +16,31 @@
     query/file
     fetch!
     disconnect!
+    ;; TODO: with-db-lock (??)
+    call-with-lock
+    with-lock
   )
   (begin
+
+(define *lock* (make-mutex))
+
+(define (call-with-lock thunk)
+  (let ((result #f))
+    (mutex-lock! *lock*)
+    (with-handler
+      (lambda (err)
+        (mutex-unlock! *lock*)
+        (raise err))
+      (set! result (thunk)))
+    (mutex-unlock! *lock*)
+    result))
+    
+(define-syntax with-lock
+  (er-macro-transformer
+    (lambda (exp rename compare)
+      `(call-with-lock
+         (lambda ()
+           ,@(cdr exp))))))
 
 (define (connect)
   (define cfg (config:read-file "config/database.scm"))
