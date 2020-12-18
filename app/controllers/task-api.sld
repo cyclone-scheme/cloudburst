@@ -11,9 +11,9 @@
   (export
     ;; Sample REST API for "key-value" entities
     get:tasks
-    ;post:task
-    ;put:task
-    ;delete:task
+    post:task
+    put:task
+    delete:task
 
   )
   (begin
@@ -21,34 +21,33 @@
     (define (get:tasks)
       (task-model:get-all))
 
-    ;(define (post:key-value)
-    ;  (let* ((vars (decode-form (req:body)))
-    ;         (key (form vars "key"))
-    ;         (value (form vars "value"))
-    ;        )
-    ;  ;; This returns 404 if no key
-    ;  (when key
-    ;    (demo-model:insert! key value)
-    ;    `(Inserted ,key ,value))))
+    (define (post:task)
+      (let* ((vars (decode-form (req:body)))
+             (body (form vars "body"))
+            )
+      ;; This returns 404 if no body
+      (when body
+        (let ((id (task-model:insert! body)))
+        `(Inserted ,body as id ,id)))))
 
-    ;(define (put:key-value)
-    ;  (let* ((vars (decode-form (req:body)))
-    ;         (key (form vars "key"))
-    ;         (value (form vars "value"))
-    ;        )
-    ;  ;; Return 404 if no key
-    ;  (when key
-    ;    (demo-model:update! key value)
-    ;    `(Updated ,key ,value))))
+    (define (put:task)
+      (let* ((vars (decode-form (req:body)))
+             (id (form vars "id"))
+             (body (form vars "body"))
+            )
+      ;; Return 404 if no id
+      (when id
+        (task-model:update! id body)
+        `(Updated ,id ,body))))
 
-    ;(define (delete:key-value)
-    ;  (let* ((vars (decode-form (req:body)))
-    ;         (key (form vars "key"))
-    ;        )
-    ;  ;; Return 404 if no key
-    ;  (when key
-    ;    (demo-model:delete! key)
-    ;    `(Deleted ,key))))
+    (define (delete:task)
+      (let* ((vars (decode-form (req:body)))
+             (id (form vars "id"))
+            )
+      ;; Return 404 if no id
+      (when id
+        (task-model:delete! id)
+        `(Deleted ,id))))
 
   ))
 
