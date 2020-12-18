@@ -22,7 +22,10 @@ MODEL_OBJS=$(MODELS:.sld=.o)
 
 VIEWS=$(wildcard app/views/*)
 
-all: $(APP) $(APP_LIBS_COBJECTS)
+all: $(APP) $(APP_LIBS_COBJECTS) cloudburst
+
+cloudburst: cloudburst.scm $(APP_LIBS_COBJECTS)
+	cyclone cloudburst.scm
 
 $(CONTROLLER_OBJS) : %.o: %.sld
 	$(CYCLONE) $<
