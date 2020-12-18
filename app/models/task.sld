@@ -16,9 +16,6 @@
   )
   (begin
 
-;; TODO: BIG consideration is how to make all of this thread-safe,
-;;       and how much of that is DB-dependent (EG: pg vs sqlite)
-
 ;; TODO: instead of using config/postgres directly, extract that to a DB driver
 ;; and use something streamlined here
 
@@ -44,46 +41,40 @@
           (reverse rs)))))
 
     (define (insert! body)
-      (let* ((conn (db:connect))
-             (p (postgresql-prepared-statement conn 
-                  "insert into task (body) values ($1)")))
-        (postgresql-prepared-statement-sql p)
+     (db:call-with-lock (lambda (conn)
+      (let* ((p (postgresql-prepared-statement conn 
+                  "insert into task (body) values ($1)
+                   returning id")))
+        ;display (postgresql-prepared-statement-sql p)
         (postgresql-bind-parameters! p body)
         (define q (postgresql-execute! p))
+        (define row (db:fetch! conn q))
+        (define id (vector-ref row 0))
         (postgresql-close-prepared-statement! p)
         (db:disconnect! conn)
-        q)) ;; TODO: possible to return ID?
-
-    ; Experiment -
-    ;(define (insert2! body)
-    ;  (let* ((conn (db:connect)))
-    ;    (postgresql-execute-sql! conn 
-    ;      (string-append
-    ;        "insert into task (body) values ('"
-    ;        body
-    ;        "')"))))
+        id))))
 
     (define (update! id body)
-      (let* ((conn (db:connect))
-             (p (postgresql-prepared-statement conn 
+     (db:call-with-lock (lambda (conn)
+      (let* ((p (postgresql-prepared-statement conn 
                   "update task set body = $1 where id = $2")))
-        (postgresql-prepared-statement-sql p)
+        ; display (postgresql-prepared-statement-sql p)
         (postgresql-bind-parameters! p body id)
         (define q (postgresql-execute! p))
         (postgresql-close-prepared-statement! p)
         (db:disconnect! conn)
-        q))
+        q))))
 
     (define (delete! id)
-      (let* ((conn (db:connect))
-             (p (postgresql-prepared-statement conn 
+     (db:call-with-lock (lambda (conn)
+      (let* ((p (postgresql-prepared-statement conn 
                   "delete from task where id = $1")))
-        (postgresql-prepared-statement-sql p)
+        ;display (postgresql-prepared-statement-sql p)
         (postgresql-bind-parameters! p id)
         (define q (postgresql-execute! p))
         (postgresql-close-prepared-statement! p)
         (db:disconnect! conn)
-        q))
+        q))))
 
   )
 )
