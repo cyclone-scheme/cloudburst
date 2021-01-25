@@ -31,15 +31,15 @@
 
 (include "lib/router.scm")
 
-;; Use this name for syslog entries
-(open-log "cloudburst")
-
 (fcgx:init)
 ;; TODO: initiate minor GC to ensure no thread-local data??
 ;; TODO: make this multithreaded based on the threaded.c example
 ;; TODO: make sure to include error handling via with-handler 
 
 (define (main-handler)
+  ;; Use this name for syslog entries
+  (open-log "cloudburst")
+
   (fcgx:loop 
     (lambda (req)
       ;; TODO: need to fix dynamic-wind to guarantee after section is called, otherwise

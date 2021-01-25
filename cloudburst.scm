@@ -1,7 +1,9 @@
 (import (scheme base) 
+        (scheme file)
         (scheme process-context)
         (scheme write)
         (cyclone match)
+        (cyclone web temple)
         (lib system-calls)
         )
 
@@ -24,24 +26,44 @@
 ;;    What else?
 ;;
 
+;; TODO: this particular URL is only temporary, also need a means of comparing a SHA256 to verify integrity/identity
+(define *default-cb-tar-gz-url* "https://github.com/cyclone-scheme/cloudburst/archive/master.tar.gz")
+
 (define (usage)
   (display
     "Usage: cloudburst COMMAND
 
   Commands:
   
+    init NAME - Create a new Cloudburst project in directory NAME
+    add ctrl NAME - Add a new controller called NAME
     help - Display this usage text
+
     ")
+  ;; TODO:
+    ;add rest NAME - Add a new REST controller called NAME
+    ;add model NAME - Add a new model called NAME
+    ;add view NAME - Add a new view called NAME
 )
 
-(define (main)
-  (match (cdr (map string->symbol (command-line)))
-    (('init name)
-     (display `(TODO create app ,name))
-     (download! "https://github.com/cyclone-scheme/cloudburst/archive/master.tar.gz" "cb.tar.gz")
+(define (main cmd)
+  (match 
+    cmd
+    (("init" name)
+     (main `("init" ,name ,*default-cb-tar-gz-url*)))
+    (("init" name url)
+     (when (file-exists? name)
+       (error `(Project ,name already exists)))
+     (download! url "cb.tar.gz")
+     (make-dir! name)
      (extract! "cb.tar.gz" name)
     )
+    (("add" "ctrl" name)
+     (with-output-to-file
+       (string-append "app/controllers/" name ".sld")
+       (lambda ()
+         (render "templates/ctrl.sld" `((name . ,name))))))
     (else
       (usage))))
 
-(main)
+(main (cdr (command-line)))

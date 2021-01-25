@@ -2,6 +2,8 @@ include Makefile.config
 
 APP_LIB_DIR = lib
 APP_LIBS = \
+  $(APP_LIB_DIR)/config.sld \
+  $(APP_LIB_DIR)/database.sld \
   $(APP_LIB_DIR)/dirent.sld \
   $(APP_LIB_DIR)/fcgi.sld \
   $(APP_LIB_DIR)/http.sld \
@@ -20,22 +22,10 @@ MODEL_OBJS=$(MODELS:.sld=.o)
 
 VIEWS=$(wildcard app/views/*)
 
-CYCLONE_LIBS_COBJECTS = \
-  $(CYCLONE_DIR)/scheme/cyclone/common.o \
-  $(CYCLONE_DIR)/scheme/cyclone/primitives.o \
-  $(CYCLONE_DIR)/scheme/base.o \
-  $(CYCLONE_DIR)/scheme/write.o \
-  $(CYCLONE_DIR)/scheme/read.o \
-  $(CYCLONE_DIR)/scheme/eval.o \
-  $(CYCLONE_DIR)/scheme/file.o \
-  $(CYCLONE_DIR)/scheme/process-context.o \
-  $(CYCLONE_DIR)/srfi/2.o \
-  $(CYCLONE_DIR)/srfi/18.o \
-  $(CYCLONE_DIR)/scheme/cyclone/util.o \
-  $(CYCLONE_DIR)/scheme/cyclone/libraries.o \
-  $(CYCLONE_DIR)/scheme/char.o
+all: $(APP) $(APP_LIBS_COBJECTS) cloudburst
 
-all: $(APP) $(APP_LIBS_COBJECTS)
+cloudburst: cloudburst.scm $(APP_LIBS_COBJECTS)
+	cyclone cloudburst.scm
 
 $(CONTROLLER_OBJS) : %.o: %.sld
 	$(CYCLONE) $<
@@ -48,19 +38,10 @@ $(APP_LIBS_COBJECTS) : %.o: %.sld
 
 $(APP): $(APP).scm lib/router.scm $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) $(VIEWS)
 	$(CYCLONE) -CLNK -lfcgi $(APP).scm
-#	cc $(APP).c -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -c -o $(APP).o
-#	cc $(APP).o $(CYCLONE_LIBS_COBJECTS) $(APP_LIBS_COBJECTS) $(CONTROLLER_OBJS) $(MODEL_OBJS) -pthread -lfcgi -lcyclone -lck -lm -ltommath -ldl -O2 -fPIC -rdynamic -Wall -I/usr/local/include -L/usr/local/lib -o $(APP)
-
-#threaded: threaded.c
-#	gcc threaded.c -lpthread -lfcgi -o threaded
-#
-#example: example.c
-#	gcc example.c -lfcgi -o example
 
 .PHONY: clean test run run-server copy-html
 clean:
-#	rm -f example $(APP) threaded *.meta *.so *.o $(APP).c lib/*.meta lib/*.so $(APP_LIBS_CFILES) $(APP_LIBS_COBJECTS)
-	git clean -fdx
+	git clean -fdx -e config/database.scm
 
 TEST_DIR = tests
 TEST_SRC = \
@@ -90,7 +71,7 @@ run: $(APP)
 # FUTURE? Serve local content via this method:
 # https://stackoverflow.com/a/25486871/101258
 run-server:
-	sudo nginx -c `pwd`/conf/nginx.conf -p "`pwd`"
+	sudo nginx -c `pwd`/config/nginx.conf -p "`pwd`"
 
 stop-server:
 	sudo nginx -s quit

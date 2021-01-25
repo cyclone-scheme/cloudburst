@@ -20,7 +20,7 @@ jobs:
         sudo apt install ./cyclone-scheme_0.25_amd64.deb
     - name: Install winds packages
       run: |
-        sudo winds install srfi-152 syslog temple
+        sudo winds install srfi-152 syslog temple postgresql
       
     # Setup winds
     - uses: actions/checkout@v2

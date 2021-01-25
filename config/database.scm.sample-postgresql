@@ -1,0 +1,11 @@
+;; Sample database configuration
+;;
+;; To use, edit this file to include connection information for your database
+;; and save it as config/database.scm
+;;
+((driver . postgresql)
+ (hostname . "localhost")
+ (port . "5432")
+ (database . "my-db")
+ (username . "postgres")
+ (password . "postgres"))

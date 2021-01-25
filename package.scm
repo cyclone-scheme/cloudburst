@@ -8,7 +8,7 @@
  (tags           "web" "networking")
  (docs           "https://github.com/cyclone-scheme/cloudburst/wiki/sha2")
  ;(test           "test-sha2.scm")
- (dependencies   (srfi-152 syslog temple))
+ (dependencies   (postgresql srfi-152 syslog temple))
 
  (program
    (name cloudburst)
