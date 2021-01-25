@@ -16,11 +16,11 @@ jobs:
       run: sudo apt-get install libck-dev libfcgi-dev spawn-fcgi
     - name: Install Cyclone
       run: |
-        wget https://github.com/cyclone-scheme/binary-releases/raw/master/ubuntu-18.04-lts/cyclone-scheme_0.23_amd64.deb 
-        sudo apt install ./cyclone-scheme_0.23_amd64.deb
+        wget https://github.com/cyclone-scheme/binary-releases/raw/master/ubuntu-18.04-lts/cyclone-scheme_0.25_amd64.deb 
+        sudo apt install ./cyclone-scheme_0.25_amd64.deb
     - name: Install winds packages
       run: |
-        sudo cyclone-winds install srfi-152 syslog temple
+        sudo winds install srfi-152 syslog temple
       
     # Setup winds
     - uses: actions/checkout@v2
